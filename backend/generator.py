@@ -5,7 +5,7 @@ from os import path
 from jinja2 import Environment, FileSystemLoader
 
 
-def configure() -> Environment:
+def create_latex_env() -> Environment:
     """Funcion encargada de configurar jinja para LaTeX"""
     latex_jinja_env = Environment(
         block_start_string='\BLOCK{',
@@ -33,5 +33,5 @@ def generate(data: dict):
 
 if __name__ == "__main__":
     data = {"section1": "Hola", "section2": "Mundo"}
-    template = configure()
+    template = create_latex_env()
     generate(data)
