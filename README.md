@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href=# name="readme-top"><img src="./docs/img/TempLeX.svg" width="250px" alt="banner TempLeX"></a>
+  <a href=# name="readme-top"><img src="https://raw.githubusercontent.com/open-source-uc/TempLex/993ad092162058ff6f4f8667a6e47e7b8ad02792/docs/img/TempLeX.svg" width="300px" alt="banner TempLeX"></a>
 </h1>
 <h4 align="center"> Generador de plantillas en LaTeX </h4>
 <p align="center">
