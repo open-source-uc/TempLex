@@ -1,6 +1,12 @@
+<html
+    lang="en"
+    data-color-mode="auto"
+    data-light-theme="light"
+    data-dark-theme="dark_dimmed"
+>
 <h1 align="center">
   <br>
-  <a href=# name="readme-top"><img src="https://raw.githubusercontent.com/open-source-uc/TempLex/993ad092162058ff6f4f8667a6e47e7b8ad02792/docs/img/TempLeX.svg" width="300px" alt="banner TempLeX"></a>
+  <a href=# name="readme-top"><img src="https://raw.githubusercontent.com/open-source-uc/TempLex/33ebfdf199cb181ae79431449d463815bae48376/docs/img/TempLeX.svg" width="300px" alt="banner TempLeX"></a>
 </h1>
 <h4 align="center"> Generador de plantillas en LaTeX </h4>
 <p align="center">
