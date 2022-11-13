@@ -21,8 +21,6 @@
 \renewcommand{\phi}{\varphi}
 %\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
-
-
 %-------------------- COMANDOS IMAGENES Y TABLAS --------------------
 % Configuracion imagenes
 \newcommand{\fig}[4][\relax]{

@@ -1,10 +1,13 @@
 %----------------------------- TEXTO ---------------------------
-%\usepackage{mathptmx}                        % Tipografia Times New Roman
+((* if cls.tipography == "times" *))
+\usepackage{mathptmx}                        % Tipografia Times New Roman
+((* elif cls.tipography == "latin" *))
 \usepackage{lmodern}                        % Tipografia Latin modern
+((* elif cls.tipography == "montserrat" *))
 %\usepackage[defaultfam,tabular,lining]{montserrat} % Alternativa a avenir
+((* endif *))
 
 \usepackage[LY1]{fontenc}                   % Fuentes (Alternativa [T1])
-
 \RequirePackage{parskip}                    % Permite separar los párrafos y configura la sangria
 %\setlength{\parindent}{4em}     % sangria especifica
 %\setlength{\parskip}{1em}      % Distancia parrados
@@ -19,8 +22,10 @@
 \RequirePackage{inputenc}                   % carácteres acentuados.
 \RequirePackage{mfirstuc}                   % Agrega comandos para mayúsculas
 \RequirePackage{microtype}                  % Permite un estilo mas agradable
+((* if tex.encabezado *))
 \RequirePackage{fancyhdr}                   % Para configurar encabezado
 \pagestyle{fancy}
+((* endif *))
 \RequirePackage[absolute,overlay]{textpos}
 \RequirePackage{soul}                       % Resaltar texto y otras cosas
 %-------------------------- ECUACIONES --------------------------
@@ -63,7 +68,6 @@
 
 \RequirePackage{pdfpages}                   % insertar pdfs ya creados
 \RequirePackage{titlesec}                   % Define formatos para \section y +
-%\RequirePackage[backend=biber,style=apa]{biblatex}
 \RequirePackage{natbib}                     % Referencias bibliograficas mas comodas
 
 % \RequirePackage[none]{hyphenat}           %  Evita que las palabras se corten(Puede verse mal)

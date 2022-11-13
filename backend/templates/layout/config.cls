@@ -19,6 +19,7 @@
 \definecolor{cian2}{RGB}{93, 196, 188}
 \definecolor{shadecolor}{RGB}{224,238,238}
 
+((* if tex.encabezado *))
 %-------------------- ENCABEZADO --------------------
 \renewcommand{\headrulewidth}{0pt} % eliminamos linea encabezado
 \renewcommand{\footrulewidth}{0pt} % eliminamos linea pie pagina
@@ -26,7 +27,7 @@
 \addtolength{\textheight}{-50.0pt} % Distancia entre encabezado y pie de pag
 
 % Encabezado personalizado https://latex.org/forum/viewtopic.php?t=33369
-
+((* endif *))
 %-------------------- OTROS --------------------
 \titleformat{\section}[hang]
     {}

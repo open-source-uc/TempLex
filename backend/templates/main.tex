@@ -6,59 +6,84 @@
 \documentclass{style}
 
 \begin{document}
-% %%%%%%%%%%%%%%%% RENOMBRE %%%%%%%%%%%%%%%%%
-\graphicspath{ {./img/} }
-\renewcommand{\contentsname}{Índice de contenido}
-\renewcommand{\listfigurename}{Índice de figuras}
-\renewcommand{\listtablename}{Índice de Tablas}
+% Renombre
 \renewcommand{\tablename}{Tabla}
 \renewcommand{\figurename}{Imagen}
 \renewcommand*{\lstlistingname}{Código}
 
-
+((* if tex.encabezado.visible *))
 % %%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
-% Si se quiere eliminar, se tiene que quitar tambien las configuraciones del style.cls
 \fancyhead[L]{ % Encabezado a la izquierda
   \begin{picture}(0,0) \put(-40,16){\includegraphics[width=15mm]{img/logo-uc-3.pdf}} \end{picture}
   \put(8,40){\textcolor{gray}{\scriptsize{\begin{tabular}{l}
     PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
-    ESCUELA DE INGENIERÍA\\
-    DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN
+    \VAR{tex.encabezado.escuela}
+  ((* if tex.encabezado.departamento *))
+  \\\VAR{tex.encabezado.departamento}
+  ((* endif *))
   \end{tabular}}}}
 }
-% Si se quiere agregar a la derecha remplazar:
-\rhead{} % Opcion 1
-%\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/IMAGEN.png}} \end{picture}} % Opcion 2
+((* if tex.encabezado.derecha*))
+% Imagen a la derecha
+\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/\VAR{tex.encabezado.imagenderecha}}} \end{picture}}
+((* else *))
+\rhead{} % Quita el encabeazado a la derecha NO BORRAR
+((* endif *))
+((* endif *))
 
-
+((* if tex.portada.visible *))
 % %%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
-% Opcion 1: Importar un pdf tamaño carta de EEUU
-%\includepdf[pages=-]{img/Portada.pdf} % cambiar portada por pdf
-% Opcion 2: Escribir una portada completa
+((* if tex.portada.includepdf *))
+\includepdf[pages=-]{img/\VAR{tex.portada.pdfname}} % añade un pdf como portada
+((* elif tex.portada.portada1 *))
 \input{content/portada}
-% Opcion 3: Sin portada - Se recomienda quitar indices
+((* endif *))
+((* endif *))
 
-
+((* if tex.indices.visible *))
 % %%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
-\setstretch{1}
+\setstretch{1} % Espaciado entre lineas del indice
 \vspace*{\fill}
-    \tableofcontents % No pude quitarle la negrita :c
+    \renewcommand{\contentsname}{Índice de contenido}
+    \tableofcontents
+
+((* if tex.indices.tablas*))
+    \renewcommand{\listtablename}{Índice de Tablas}
     \listoftables
+((* endif *))
+
+((* if tex.indices.figuras*))
+    \renewcommand{\listfigurename}{Índice de figuras}
     \listoffigures
-    %\lstlistoflistings % Para hacer indice de codigo
+((* endif *))
+
+((* if tex.indices.codigo*))
+    \lstlistoflistings % Para hacer indice de codigo
+((* endif *))
 \vspace*{\fill}
+((* endif *))
 
 % %%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
-\setstretch{1.15} 
-
+\setstretch{\VAR{tex.espaciado}}
 
 % %%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
 \newpage
+((* if tex.tutorial *))
 \input{content/tutorial} % Eliminar en caso de no requerir
+((* endif *))
 
-
+((* if tex.bibliografia.visible *))
 % %%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%
 \newpage
+((* if tex.bibliografia.estilo == "manual" *))
 \input{content/bibliografia}
+
+((* elif tex.bibliografia.estilo == "bibtex" *))
+\bibliographystyle{apacite}
+\bibliography{mybib.bib} % IMPORTANTE: Requiere crear un archivo con ese nombre
+
+((* endif *))
+((* endif *))
+
 
 \end{document}

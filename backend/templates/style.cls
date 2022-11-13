@@ -7,14 +7,14 @@
 \selectlanguage{spanish}
 
 
-%% include "layout/package.cls"
+((* include "layout/package.cls" *))
 
 
-%% include "layout/config.cls"
+((* include "layout/config.cls" *))
 
 
-%% include "layout/command.cls"
+((* include "layout/command.cls" *))
 
 
-%% include "layout/listings.cls"
+((* include "layout/listings.cls" *))
 

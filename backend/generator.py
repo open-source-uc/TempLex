@@ -3,6 +3,7 @@ Archivo que se encarga de las funciones para generar los templates
 """
 from os import path
 from jinja2 import Environment, FileSystemLoader
+import json
 
 
 def generate_template(data: dict) -> None:
@@ -18,12 +19,12 @@ def generate_template(data: dict) -> None:
 def create_latex_env(file_name: str, data: dict) -> None:
     """Funcion encargada de configurar jinja para LaTeX"""
     latex_jinja_env = Environment(
-        block_start_string='\BLOCK{',
-        block_end_string='}',
+        block_start_string='((*',    # '\BLOCK{',
+        block_end_string='*))',      # '}',
         variable_start_string='\VAR{',
         variable_end_string='}',
-        comment_start_string='\#{',
-        comment_end_string='}',
+        comment_start_string='((#',  # '\#{',
+        comment_end_string='=))',    # '}',
         line_statement_prefix='%%',
         line_comment_prefix='%#',
         trim_blocks=True,
@@ -67,5 +68,7 @@ def normalize_path(file_name: str, result_path=True) -> str:
 
 
 if __name__ == "__main__":
-    data = {"hola": "mundo"}
+    with open(path.join(path.abspath('.'), 'backend', 'example.json'), encoding='utf-8') as fh:
+        data = json.load(fh)
+    print(data)
     generate_template(data)
