@@ -1,11 +1,11 @@
 """
 Archivo que se encarga de las funciones para generar los templates
 """
-from os import path
+from os import path, chdir
 from jinja2 import Environment, FileSystemLoader
 
 
-def create_latex_env() -> Environment:
+def create_latex_env(file_name: str, data: dict) -> Environment:
     """Funcion encargada de configurar jinja para LaTeX"""
     latex_jinja_env = Environment(
         block_start_string='\BLOCK{',
@@ -22,16 +22,21 @@ def create_latex_env() -> Environment:
             path.join(path.abspath('.'), 'backend', 'templates'))
     )
     # Se recomienda usar archivos .tex.jinja, pero vscode no lo reconoce corectamente
-    template = latex_jinja_env.get_template('main.tex')  # .jinja
+    template = latex_jinja_env.get_template(file_name)  # .jinja
+    # generamos el archivo
+    generate(template, data, file_name)
     return template
 
 
-def generate(data: dict):
-    """Funcion encargada de generar el template"""
-    print(template.render(data))
+def generate(template: Environment, data: dict, file_name: str) -> None:
+    """La funcion renderiza el template con los datos y lo guarda en un archivo .___"""
+    result = template.render(data)
+    # guardamos
+    with open(path.join(path.abspath('.'), "backend", "result", file_name), 'w+', encoding='utf-8') as f:
+        f.write(result)
 
 
 if __name__ == "__main__":
-    data = {"section1": "Hola", "section2": "Mundo"}
-    template = create_latex_env()
-    generate(data)
+    data = {}
+    file_name = "style.cls"  # "main.tex"
+    template = create_latex_env(file_name, data)

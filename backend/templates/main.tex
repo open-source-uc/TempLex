@@ -1,25 +1,64 @@
-\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IMPORTANTE: Cambiar el compilador a XeLaTeX en las opciones %
+%               Creditos Github: @diegocostares               %
+%                Disponible en: @open-source-uc               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{style}
+
 \begin{document}
-\section{Example}
-An example document using \LaTeX, Python, and Jinja.
+%%%%%%%%%%%%%%%%% RENOMBRE %%%%%%%%%%%%%%%%%
+\graphicspath{ {./img/} }
+\renewcommand{\contentsname}{Índice de contenido}
+\renewcommand{\listfigurename}{Índice de figuras}
+\renewcommand{\listtablename}{Índice de Tablas}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Imagen}
+\renewcommand*{\lstlistingname}{Código}
 
-% This is a regular LaTeX comment
-\section{\VAR{section1}}
-\#{This is a long-form Jinja comment}
-\begin{itemize}
-\BLOCK{ for x in range(0, 3) }
-  \item Counting: \VAR{x}
-\BLOCK{ endfor }
-\end{itemize}
 
-\section{\VAR{section2}}
-%# This is a short-form Jinja comment
-\begin{itemize}
-%% for x in range(0, 3)
-  \item Counting: \VAR{x}
-%% endfor
-\end{itemize}
+%%%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
+% Si se quiere eliminar, se tiene que quitar tambien las configuraciones del style.cls
+\fancyhead[L]{ % Encabezado a la izquierda
+  \begin{picture}(0,0) \put(-40,16){\includegraphics[width=15mm]{img/logo-uc-3.pdf}} \end{picture}
+  \put(8,40){\textcolor{gray}{\scriptsize{\begin{tabular}{l}
+    PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+    ESCUELA DE INGENIERÍA\\
+    DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN
+  \end{tabular}}}}
+}
+% Si se quiere agregar a la derecha remplazar:
+\rhead{} % Opcion 1
+%\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/IMAGEN.png}} \end{picture}} % Opcion 2
 
-%% include "aa.tex"
+
+%%%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
+% Opcion 1: Importar un pdf tamaño carta de EEUU
+%\includepdf[pages=-]{img/Portada.pdf} % cambiar portada por pdf
+% Opcion 2: Escribir una portada completa
+\input{content/portada}
+% Opcion 3: Sin portada - Se recomienda quitar indices
+
+
+%%%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
+\setstretch{1}
+\vspace*{\fill}
+    \tableofcontents % No pude quitarle la negrita :c
+    \listoftables
+    \listoffigures
+    %\lstlistoflistings % Para hacer indice de codigo
+\vspace*{\fill}
+
+%%%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
+\setstretch{1.15} 
+
+
+%%%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
+\newpage
+\input{content/tutorial} % Eliminar en caso de no requerir
+
+
+%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%
+\newpage
+\input{content/bibliografia}
 
 \end{document}
