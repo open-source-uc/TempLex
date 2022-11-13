@@ -5,7 +5,17 @@ from os import path
 from jinja2 import Environment, FileSystemLoader
 
 
-def create_latex_env(file_name: str, data: dict) -> Environment:
+def generate_template(data: dict) -> None:
+    """Funcion principal que se encarga de generar los templates"""
+    if not data:
+        raise ValueError("ERROR: No se han ingresado datos")
+    files_names = ["style.cls", "main.tex",
+                   "bibliografia.tex", "portada.tex", "tutorial.tex"]
+    for file in files_names:
+        create_latex_env(file, data)
+
+
+def create_latex_env(file_name: str, data: dict) -> None:
     """Funcion encargada de configurar jinja para LaTeX"""
     latex_jinja_env = Environment(
         block_start_string='\BLOCK{',
@@ -23,11 +33,10 @@ def create_latex_env(file_name: str, data: dict) -> Environment:
     # Se recomienda usar archivos .tex.jinja, pero vscode no lo reconoce corectamente
     template = latex_jinja_env.get_template(file_name)  # .jinja
     # generamos el archivo
-    generate(template, data, file_name)
-    return template
+    create_files(template, data, file_name)
 
 
-def generate(template: Environment, data: dict, file_name: str) -> None:
+def create_files(template: Environment, data: dict, file_name: str) -> None:
     """La funcion renderiza el template con los datos y lo guarda en un archivo .___"""
     result = template.render(data)
     # guardamos
@@ -58,8 +67,5 @@ def normalize_path(file_name: str, result_path=True) -> str:
 
 
 if __name__ == "__main__":
-    data = {}
-    files_names = ["style.cls", "main.tex",
-                   "bibliografia.tex", "portada.tex", "tutorial.tex"]
-    for file in files_names:
-        template = create_latex_env(file, data)
+    data = {"hola": "mundo"}
+    generate_template(data)
