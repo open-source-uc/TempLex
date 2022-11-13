@@ -1,12 +1,12 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IMPORTANTE: Cambiar el compilador a XeLaTeX en las opciones %
 %               Creditos Github: @diegocostares               %
 %                Disponible en: @open-source-uc               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass{style}
 
 \begin{document}
-%%%%%%%%%%%%%%%%% RENOMBRE %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% RENOMBRE %%%%%%%%%%%%%%%%%
 \graphicspath{ {./img/} }
 \renewcommand{\contentsname}{Índice de contenido}
 \renewcommand{\listfigurename}{Índice de figuras}
@@ -16,7 +16,7 @@
 \renewcommand*{\lstlistingname}{Código}
 
 
-%%%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
 % Si se quiere eliminar, se tiene que quitar tambien las configuraciones del style.cls
 \fancyhead[L]{ % Encabezado a la izquierda
   \begin{picture}(0,0) \put(-40,16){\includegraphics[width=15mm]{img/logo-uc-3.pdf}} \end{picture}
@@ -31,7 +31,7 @@
 %\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/IMAGEN.png}} \end{picture}} % Opcion 2
 
 
-%%%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
 % Opcion 1: Importar un pdf tamaño carta de EEUU
 %\includepdf[pages=-]{img/Portada.pdf} % cambiar portada por pdf
 % Opcion 2: Escribir una portada completa
@@ -39,7 +39,7 @@
 % Opcion 3: Sin portada - Se recomienda quitar indices
 
 
-%%%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
 \setstretch{1}
 \vspace*{\fill}
     \tableofcontents % No pude quitarle la negrita :c
@@ -48,16 +48,16 @@
     %\lstlistoflistings % Para hacer indice de codigo
 \vspace*{\fill}
 
-%%%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
 \setstretch{1.15} 
 
 
-%%%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
 \newpage
 \input{content/tutorial} % Eliminar en caso de no requerir
 
 
-%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%
 \newpage
 \input{content/bibliografia}
 
