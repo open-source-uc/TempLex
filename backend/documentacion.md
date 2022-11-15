@@ -45,3 +45,7 @@ Aca se explicaran los valores que resive el generador.
 	} 
 }
 ```
+
+## Funciones de `generator.py`
+
+Lo mas importante a mencionar es que la funcion `generate_template(data)` recibe un json y se encarga de crear un .zip que es retornado dentro de la clase `tempfile._TemporaryFileWrapper`. Para acceder al valor y trabajar con la API va a ser necesario usar el valor_retornado.name para modificarlo.
