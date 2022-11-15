@@ -1,7 +1,7 @@
 """
 Archivo que se encarga de las funciones para generar los templates
 """
-from os import path, makedirs, unlink
+from os import path, makedirs, unlink, system
 import shutil
 from jinja2 import Environment, FileSystemLoader
 import json
@@ -38,7 +38,10 @@ def generate_template(data: dict) -> tempfile._TemporaryFileWrapper:
 
 
 def temp_file(data: dict, list_templates: list, list_images: list) -> tempfile._TemporaryFileWrapper:
-    """Crea una carpeta temporal y escribe un .zip con los archivos en la carpeta"""
+    """
+    Crea un archivo(.zip) y una carpeta temporal. Procesa los archivos con con create_latex_env en la
+    carpeta temporal, los escribe en el .zip y retorna el archivo temporal.
+    """
     work_dir = path.abspath(".")
     try:
         # Creamos un .zip temporal con la opcion delete=False para que no se borre al cerrar
@@ -129,6 +132,21 @@ def create_directory(name, path_file) -> str:
         directory = name
     makedirs(directory)
     return directory
+
+
+def pandoc_convert(path_file: str, name_input: str) -> str:
+    """Convierte un archivo .md o .docx a .tex usando pandoc y retorna el path del archivo."""
+    suffix = name_input.split(".")[1]
+    if suffix != "md" or suffix != "docx":
+        raise ValueError("El archivo no es .md o .docx")
+    if suffix == "md":
+        value = "markdown"
+    else:
+        value = "docx"
+    path_result = path.join(path_file,  "pandoc.tex")
+    system(
+        f'cd {path_file} && pandoc -f {value} -t latex "{name_input}" -o "{path_result}"')
+    return path_result
 
 
 if __name__ == "__main__":

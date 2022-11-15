@@ -35,6 +35,7 @@ De forma general, el front es un formulario que pregunta al usuario por alguna p
 - [x] Hacer un generador de .tex con *jinja*
 - [x] Convertir los [templates de OSUC](https://github.com/open-source-uc/latex-templates) en una plantilla general. 
 - [ ] Filtrar lista de archivos incluidos en el .zip segun la data
+- [ ] Dar soporte a la funcion `pandoc_convert()` realizada con [pandoc](https://pandoc.org/)
 - [ ] Ver como poder recibir png/jpg/pdf (impedir svg) y configurarlo para agregarlo en el resultado final
 - [ ] Agregar soporte para otros estilos de citación
 - [ ] Configurar API
