@@ -1,0 +1,40 @@
+{
+    "tex": {
+        "encabezado": {
+            "visible": true,
+            "escuela": "ESCUELA DE INGENIERÍA",
+            "departamento": "DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN",
+            "derecha": true,
+            "imagenderecha": "IMAGEN.png"
+        },
+        "portada": {
+            "visible": true,
+            "portada1": {
+                "escuela": "ESCUELA DE INGENIERÍA",
+                "departamento": "DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN",
+                "titulo": "Nombre del proceso",
+                "numero": "Informe 1",
+                "grupo": "Grupo XX",
+                "integrantes": "Nombre1, Nombre2, Nombre3",
+                "fecha": "<día> de <mes> de <año>"
+            },
+            "includepdf": false,
+            "pdfname": "Portada.pdf"
+        },
+        "indices": {
+            "visible": true,
+            "tablas": true,
+            "figuras": true,
+            "codigo": false
+        },
+        "espaciado": 1.15,
+        "tutorial": true,
+        "bibliografia": {
+            "visible": true,
+            "estilo": "manual"
+        }
+    },
+    "cls": {
+        "tipography": "lmodern"
+    }
+}

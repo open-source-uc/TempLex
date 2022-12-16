@@ -1,25 +1,89 @@
-\documentclass{article}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IMPORTANTE: Cambiar el compilador a XeLaTeX en las opciones %
+%               Creditos Github: @diegocostares               %
+%                Disponible en: @open-source-uc               %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{style}
+
 \begin{document}
-\section{Example}
-An example document using \LaTeX, Python, and Jinja.
+% Renombre
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Imagen}
+\renewcommand*{\lstlistingname}{Código}
 
-% This is a regular LaTeX comment
-\section{\VAR{section1}}
-\#{This is a long-form Jinja comment}
-\begin{itemize}
-\BLOCK{ for x in range(0, 3) }
-  \item Counting: \VAR{x}
-\BLOCK{ endfor }
-\end{itemize}
+((* if tex.encabezado.visible *))
+% %%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
+\fancyhead[L]{ % Encabezado a la izquierda
+  \begin{picture}(0,0) \put(-40,16){\includegraphics[width=15mm]{img/logo-uc-3.pdf}} \end{picture}
+  \put(8,40){\textcolor{gray}{\scriptsize{\begin{tabular}{l}
+    PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+    \VAR{tex.encabezado.escuela}
+  ((* if tex.encabezado.departamento *))
+  \\\VAR{tex.encabezado.departamento}
+  ((* endif *))
+  \end{tabular}}}}
+}
+((* if tex.encabezado.derecha*))
+% Imagen a la derecha
+\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/\VAR{tex.encabezado.imagenderecha}}} \end{picture}}
+((* else *))
+\rhead{} % Quita el encabeazado a la derecha NO BORRAR
+((* endif *))
+((* endif *))
 
-\section{\VAR{section2}}
-%# This is a short-form Jinja comment
-\begin{itemize}
-%% for x in range(0, 3)
-  \item Counting: \VAR{x}
-%% endfor
-\end{itemize}
+((* if tex.portada.visible *))
+% %%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
+((* if tex.portada.includepdf *))
+\includepdf[pages=-]{img/\VAR{tex.portada.pdfname}} % añade un pdf como portada
+((* elif tex.portada.portada1 *))
+\input{content/portada}
+((* endif *))
+((* endif *))
 
-%% include "aa.tex"
+((* if tex.indices.visible *))
+% %%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
+\setstretch{1} % Espaciado entre lineas del indice
+\vspace*{\fill}
+    \renewcommand{\contentsname}{Índice de contenido}
+    \tableofcontents
+
+((* if tex.indices.tablas*))
+    \renewcommand{\listtablename}{Índice de Tablas}
+    \listoftables
+((* endif *))
+
+((* if tex.indices.figuras*))
+    \renewcommand{\listfigurename}{Índice de figuras}
+    \listoffigures
+((* endif *))
+
+((* if tex.indices.codigo*))
+    \lstlistoflistings % Para hacer indice de codigo
+((* endif *))
+\vspace*{\fill}
+((* endif *))
+
+% %%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
+\setstretch{\VAR{tex.espaciado}}
+
+% %%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
+\newpage
+((* if tex.tutorial *))
+\input{content/tutorial} % Eliminar en caso de no requerir
+((* endif *))
+
+((* if tex.bibliografia.visible *))
+% %%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%
+\newpage
+((* if tex.bibliografia.estilo == "manual" *))
+\input{content/bibliografia}
+
+((* elif tex.bibliografia.estilo == "bibtex" *))
+\bibliographystyle{apacite}
+\bibliography{mybib.bib} % IMPORTANTE: Requiere crear un archivo con ese nombre
+
+((* endif *))
+((* endif *))
+
 
 \end{document}

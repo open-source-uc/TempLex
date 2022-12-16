@@ -144,3 +144,4 @@ env
 *.psd
 TempLaTeX.svg
 TempLaTeX.png
+result/

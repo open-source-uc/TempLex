@@ -1,0 +1,32 @@
+((* if tex.portada.portada1 *))
+\begin{titlepage}
+\includegraphics[width=2cm]{img/logo-uc-4.pdf} % AGREGAMOS EL LOGO UC
+\vspace*{-2.2cm} % Esta linea va con la anterior
+
+
+\begin{tabular}{l}
+\hspace{2cm} PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+\hspace{2cm} \VAR{tex.portada.portada1.escuela} \\
+\hspace{2cm} \VAR{tex.portada.portada1.departamento} \\
+\end{tabular}
+
+\begin{center}
+\vspace{3cm}
+{\scshape\Huge \textbf{\VAR{tex.portada.portada1.titulo}} \par}
+\rule{80mm}{0.1mm}
+%\vspace{1cm}
+
+{\itshape\LARGE \VAR{tex.portada.portada1.numero} \par}
+\vfill
+{\Large \textbf{\VAR{tex.portada.portada1.grupo}} \par}
+\vspace{0.5cm}
+{\large \textbf{Integrantes:}\\\normalsize \VAR{tex.portada.portada1.integrantes} \par} 
+
+
+\medskip
+\textbf{Fecha de entrega:} \VAR{tex.portada.portada1.fecha}
+\vspace{3cm}
+\end{center}
+\end{titlepage}
+\newpage
+((* endif *))
