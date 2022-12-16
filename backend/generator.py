@@ -11,7 +11,7 @@ import zipfile
 import time
 
 
-def generate_template(data: dict) -> tempfile._TemporaryFileWrapper:
+def generate_template(data: dict, url=None) -> tempfile._TemporaryFileWrapper:
     """Funcion principal que se encarga de generar los templates"""
     if not data:
         raise ValueError("ERROR: No se han ingresado datos")
