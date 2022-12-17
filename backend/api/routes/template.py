@@ -1,68 +1,27 @@
 """Archivo encargado de configurar las rutas de la API"""
-from fastapi import APIRouter
-from pydantic import BaseModel
-
-
-class Encabezado(BaseModel):
-	visible: bool
-	escuela: str
-	departamento: str
-	derecha: bool
-	imagenderecha: str
-
-
-class Portada1(BaseModel):
-	escuela: str
-	departamento: str
-	titulo: str
-	numero: str
-	grupo: str
-	integrantes: str
-	fecha: str
-
-
-class Portada(BaseModel):
-	visible: bool
-	portada1: Portada1
-	includepdf: bool
-	pdfname: str
-
-
-class Indices(BaseModel):
-	visible: bool
-	tablas: bool
-	figuras: bool
-	codigo: bool
-
-
-class Bibliografia(BaseModel):
-	visible: bool
-	estilo: str
-
-
-class Tex(BaseModel):
-	encabezado: Encabezado
-	portada: Portada
-	indices: Indices
-	espaciado: float
-	tutorial: bool
-	bibliografia: Bibliografia
-
-class Cls(BaseModel):
-	tipography: str
+from fastapi import APIRouter, FastAPI, File, UploadFile, HTTPException
+from backend.api.models.model import JSONData
+from backend.generator import generate_template
 
 
 template = APIRouter()
 
+
 @template.get("/")
 def helloworld():
-	return {"message": "Hello World"}
+    return {"message": "Hello World"}
 
 
-@template.get("/template/")
-async def get_template(tex: Tex, cls: Cls):
-	template = {
-		"tex": tex,
-		"cls": cls
-	}
-	return template
+# Funcion que se encarga de recibir un json desde el cliente y devolver un archivo .zip
+@template.post("/template/")
+async def process_json(json_data: JSONData):
+    # TODO: validar los datos del JSON HTTPException o con el archivo exceptions.py
+
+    # crea el archivo .zip con los datos del JSON
+    zip_bytes = generate_template(json_data)
+    zip_file = UploadFile(filename="mi_archivo.zip",
+                          content_type="application/zip")
+    zip_file.file = zip_bytes
+
+    # envía el archivo .zip de vuelta al cliente
+    return {"zip_file": zip_file}
