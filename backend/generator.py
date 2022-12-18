@@ -24,17 +24,20 @@ def generate_template(data: dict, url=None) -> tempfile._TemporaryFileWrapper:
     try:
         zip_file = temp_file(data, list_templates, list_images)
 
-        # OPCIONAL: Guardamos el archivo en la carpeta result para probar
+        ###########################################
+        # OPCIONAL: Guardamos el archivo en la carpeta result para testear
         zip_path_finally = path.join(
             path.abspath("."), "backend", "result", "template.zip")
         shutil.copy(zip_file.name, zip_path_finally)
+        ###########################################
+
         return zip_file
     except Exception as e:
         print(e)
         print(traceback.format_exc())
         return None
-    finally:
-        unlink(zip_file.name)  # TODO: pasar a la funcion final de la API
+    # finally:
+       # unlink(zip_file.name)  # Pasar a la funcion final de donde se use
 
 
 def temp_file(data: dict, list_templates: list, list_images: list) -> tempfile._TemporaryFileWrapper:
@@ -43,31 +46,28 @@ def temp_file(data: dict, list_templates: list, list_images: list) -> tempfile._
     carpeta temporal, los escribe en el .zip y retorna el archivo temporal.
     """
     work_dir = path.abspath(".")
-    try:
-        # Creamos un .zip temporal con la opcion delete=False para que no se borre al cerrar
-        zip_temp = tempfile.NamedTemporaryFile(
-            suffix=".zip", prefix="template", delete=False, dir='/tmp')
-        with tempfile.TemporaryDirectory() as zip_dir:  # Creamos una carpeta temporal
-            # Creamos el archivo .zip que contendra los archivos registrados en la carpeta temporal
-            with zipfile.ZipFile(zip_temp.name, "w", compression=zipfile.ZIP_DEFLATED) as zfd:
-                # Creamos la carpeta img y content dentro de zfd
-                img_dir = create_directory("img", zip_dir)
-                create_directory("content", zip_dir)
-                # Creamos y guardamos los archivos .tex y .cls
-                for file_name in list_templates:
-                    path_file = create_latex_env(file_name, data, zip_dir)
-                    zfd.write(path_file, file_name)
+    # Creamos un .zip temporal con la opcion delete=False para que no se borre al cerrar
+    zip_temp = tempfile.NamedTemporaryFile(
+        suffix=".zip", prefix="template", delete=False, dir='/tmp')
+    with tempfile.TemporaryDirectory() as zip_dir:  # Creamos una carpeta temporal
+        # Creamos el archivo .zip que contendra los archivos registrados en la carpeta temporal
+        with zipfile.ZipFile(zip_temp.name, "w", compression=zipfile.ZIP_DEFLATED) as zfd:
+            # Creamos la carpeta img y content dentro de zfd
+            img_dir = create_directory("img", zip_dir)
+            create_directory("content", zip_dir)
+            # Creamos y guardamos los archivos .tex y .cls
+            for file_name in list_templates:
+                path_file = create_latex_env(file_name, data, zip_dir)
+                zfd.write(path_file, file_name)
 
-                # Copiamos las imagenes al zfd
-                for image in list_images:
-                    image_path = path.join(
-                        work_dir, "backend", "templates", "img", image)
-                    shutil.copy(image_path, img_dir)
-                    zfd.write(path.join(img_dir, image),
-                              path.join("img", image))
-        return zip_temp
-    finally:
-        zip_temp.close()
+            # Copiamos las imagenes al zfd
+            for image in list_images:
+                image_path = path.join(
+                    work_dir, "backend", "templates", "img", image)
+                shutil.copy(image_path, img_dir)
+                zfd.write(path.join(img_dir, image),
+                          path.join("img", image))
+    return zip_temp
 
 
 def create_latex_env(file_name: str, data: dict, file_path: str) -> str:
