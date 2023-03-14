@@ -1,17 +1,18 @@
 """
 Archivo que se encarga de las funciones para generar los templates
 """
-from os import path, makedirs, unlink, system
-import shutil
-from jinja2 import Environment, FileSystemLoader
 import json
-import traceback
+import shutil
 import tempfile
-import zipfile
 import time
+import traceback
+import zipfile
+from os import makedirs, path, system, unlink
+
+from jinja2 import Environment, FileSystemLoader
 
 
-def generate_template(data: dict) -> tempfile._TemporaryFileWrapper:
+def generate_template(data: dict, url=None) -> tempfile._TemporaryFileWrapper:
     """Funcion principal que se encarga de generar los templates"""
     if not data:
         raise ValueError("ERROR: No se han ingresado datos")
@@ -19,59 +20,62 @@ def generate_template(data: dict) -> tempfile._TemporaryFileWrapper:
                       "bibliografia.tex", "portada.tex", "tutorial.tex"]
     list_images = ["cuadradoejemplo.png",
                    "tablaejemplo.png", "logo-uc-3.pdf", "logo-uc-4.pdf"]
-    # TODO: Filtrar listas segun la data... ejemplo: print(data["tex"]["portada"]["visible"])
+    # TODO: Filtrar listas segun la data...
+    # ejemplo: print(data["tex"]["portada"]["visible"])
     # recibe el path donde estara el .zip
     try:
         zip_file = temp_file(data, list_templates, list_images)
 
-        # OPCIONAL: Guardamos el archivo en la carpeta result para probar
+        ###########################################
+        # OPCIONAL: Guardamos el archivo en la carpeta result para testear
         zip_path_finally = path.join(
             path.abspath("."), "backend", "result", "template.zip")
         shutil.copy(zip_file.name, zip_path_finally)
+        ###########################################
+
         return zip_file
     except Exception as e:
         print(e)
         print(traceback.format_exc())
         return None
-    finally:
-        unlink(zip_file.name)  # TODO: pasar a la funcion final de la API
+    # finally:
+    # unlink(zip_file.name)  # Pasar a la funcion final de donde se use
 
 
-def temp_file(data: dict, list_templates: list, list_images: list) -> tempfile._TemporaryFileWrapper:
+def temp_file(data: dict, list_templates: list, list_images: list) -> tempfile:
     """
-    Crea un archivo(.zip) y una carpeta temporal. Procesa los archivos con con create_latex_env en la
-    carpeta temporal, los escribe en el .zip y retorna el archivo temporal.
+    Crea un archivo(.zip) y una carpeta temporal. Procesa los archivos con con create_latex_env en
+    la carpeta temporal, los escribe en el .zip y retorna el archivo temporal.
     """
     work_dir = path.abspath(".")
-    try:
-        # Creamos un .zip temporal con la opcion delete=False para que no se borre al cerrar
-        zip_temp = tempfile.NamedTemporaryFile(
-            suffix=".zip", prefix="template", delete=False, dir='/tmp')
-        with tempfile.TemporaryDirectory() as zip_dir:  # Creamos una carpeta temporal
-            # Creamos el archivo .zip que contendra los archivos registrados en la carpeta temporal
-            with zipfile.ZipFile(zip_temp.name, "w", compression=zipfile.ZIP_DEFLATED) as zfd:
-                # Creamos la carpeta img y content dentro de zfd
-                img_dir = create_directory("img", zip_dir)
-                create_directory("content", zip_dir)
-                # Creamos y guardamos los archivos .tex y .cls
-                for file_name in list_templates:
-                    path_file = create_latex_env(file_name, data, zip_dir)
-                    zfd.write(path_file, file_name)
+    # Creamos un .zip temporal con la opcion delete=False para que no se borre al cerrar
+    zip_temp = tempfile.NamedTemporaryFile(
+        suffix=".zip", prefix="template", delete=False, dir='/tmp')
+    with tempfile.TemporaryDirectory() as zip_dir:  # Creamos una carpeta temporal
+        # Creamos el archivo .zip que contendra los archivos registrados en la carpeta temporal
+        with zipfile.ZipFile(zip_temp.name, "w", compression=zipfile.ZIP_DEFLATED) as zfd:
+            # Creamos la carpeta img y content dentro de zfd
+            img_dir = create_directory("img", zip_dir)
+            create_directory("content", zip_dir)
+            # Creamos y guardamos los archivos .tex y .cls
+            for file_name in list_templates:
+                path_file = create_latex_env(file_name, data, zip_dir)
+                zfd.write(path_file, file_name)
 
-                # Copiamos las imagenes al zfd
-                for image in list_images:
-                    image_path = path.join(
-                        work_dir, "backend", "templates", "img", image)
-                    shutil.copy(image_path, img_dir)
-                    zfd.write(path.join(img_dir, image),
-                              path.join("img", image))
-        return zip_temp
-    finally:
-        zip_temp.close()
+            # Copiamos las imagenes al zfd
+            for image in list_images:
+                image_path = path.join(
+                    work_dir, "backend", "templates", "img", image)
+                shutil.copy(image_path, img_dir)
+                zfd.write(path.join(img_dir, image),
+                          path.join("img", image))
+    return zip_temp
 
 
 def create_latex_env(file_name: str, data: dict, file_path: str) -> str:
-    """Funcion encargada de configurar jinja para LaTeX, obtener el contenido y guardar el archivo"""
+    """
+    Funcion encargada de configurar jinja para LaTeX, obtener el contenido y guardar el archivo
+    """
     latex_jinja_env = Environment(
         block_start_string='((*',    # '\BLOCK{',
         block_end_string='*))',      # '}',
@@ -96,7 +100,7 @@ def create_latex_env(file_name: str, data: dict, file_path: str) -> str:
 
 
 def create_files(result: str, file_name: str, file_path) -> str:
-    """Recibe los datos y lo guarda en un archivo file_name en la ruta file_path. 
+    """Recibe los datos y lo guarda en un archivo file_name en la ruta file_path.
     Retorna la ruta del archivo"""
     # guardamos
     file_path = normalize_path(file_name, file_path)
@@ -110,7 +114,8 @@ def normalize_path(file_name: str, start_path: str, result_path=True) -> str:
     Funcion que normaliza el path de un archivo dependiendo del nombre.
     Cuando result_path es False, se usa para las rutas de los templates que usa FileSystemLoader
     """
-    if (file_name == "bibliografia.tex" or file_name == "portada.tex" or file_name == "tutorial.tex"):
+    if (file_name == "bibliografia.tex" or file_name == "portada.tex" or (
+            file_name == "tutorial.tex")):
         if result_path:
             file_path = path.join(start_path, "content", file_name)
         else:
@@ -143,7 +148,7 @@ def pandoc_convert(path_file: str, name_input: str) -> str:
         value = "markdown"
     else:
         value = "docx"
-    path_result = path.join(path_file,  "pandoc.tex")
+    path_result = path.join(path_file, "pandoc.tex")
     system(
         f'cd {path_file} && pandoc -f {value} -t latex "{name_input}" -o "{path_result}"')
     return path_result
