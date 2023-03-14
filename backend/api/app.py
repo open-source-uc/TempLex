@@ -2,8 +2,8 @@
 Archivo principal de la API
 DOCUMENTACIÓN: http://127.0.0.1:8000/docs
 """
-from fastapi import FastAPI, File, UploadFile, HTTPException
 from api.routes.template import template
+from fastapi import FastAPI, File, HTTPException, UploadFile
 
 app = FastAPI(
     title="API TempLex",

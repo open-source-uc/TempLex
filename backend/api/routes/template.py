@@ -1,9 +1,10 @@
 """Archivo encargado de configurar las rutas de la API"""
-from fastapi import APIRouter, FastAPI, File, Response, UploadFile, HTTPException
-from api.models.model import JSONData
-from generator import generate_template
-from os import path, makedirs, unlink, system
+from os import makedirs, path, system, unlink
 
+from api.models.model import JSONData
+from fastapi import (APIRouter, FastAPI, File, HTTPException, Response,
+                     UploadFile)
+from generator import generate_template
 
 template = APIRouter()
 
