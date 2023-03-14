@@ -17,8 +17,6 @@ def helloworld():
 # Funcion que se encarga de recibir un json desde el cliente y devolver un archivo .zip
 @template.post("/template/")
 async def process_json(json_data: JSONData):
-    # TODO: validar los datos del JSON HTTPException o con el archivo exceptions.py
-
     try:
         # crea el archivo .zip con los datos del JSON
         zip_temp_file = generate_template(json_data)
@@ -28,3 +26,8 @@ async def process_json(json_data: JSONData):
         # elimina el archivo temporal
         zip_temp_file.file.close()
         unlink(zip_temp_file.name)
+
+
+@template.get("/template/schema/")
+async def get_schema():
+    return Response(content=JSONData.schema_json(), media_type="application/json")
